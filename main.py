@@ -19,7 +19,7 @@ def sendTGMessage(message:str, chat_ID:str)->None:
     resp = requests.post(url, msg_data).json()
     print("Message Not Send" if resp['ok'] is False else "👉    Message  Sent")
 
-def SetData(district_ID:int, WholeSessions:int,index:int,message:str):
+def SetData(district_ID:int, WholeSessions:int,index:int,message:str,chat_ID1:str):
     global Mem_Sessions
     Dis_ID = [ 301, 307, 306, 297, 295, 298, 304, 305, 302, 308, 300, 296, 303, 299]
 
@@ -91,7 +91,7 @@ def GetData(district_ID:int,District_Name:str,chat_ID1:str):
 	WholeSessions=Mes(Week)
 	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
 	print(message)
-	SetData(district_ID, WholeSessions,index,message)
+	SetData(district_ID, WholeSessions, index, message,chat_ID1)
 	index+=1
 
 #GetData(<district code>,"district name","chat_id")-1001339973178
