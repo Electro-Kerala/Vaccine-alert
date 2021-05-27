@@ -36,7 +36,7 @@ def Mes(Week)->None:
 	global Message
 	length=0
 	for j in range(7):
-		length=length+DB[j]
+		length=length+len(DB[j])
 		if len(DB[j])!=0:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {len(DB[j])}"
 		else:
