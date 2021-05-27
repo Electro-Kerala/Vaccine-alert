@@ -25,7 +25,7 @@ def SetData(district_ID, WholeSessions,index,message):
     if district_ID==Dis_ID[index]:
         if Mem_Sessions!=WholeSessions:
             print("Update Available") #sendTGMessage(message,chat_ID1)
-            Mem_Sessions=np.insert(Mem_Sessions,index,WholeSessions);
+            Mem_Sessions=np.insert(Mem_Sessions,index,WholeSessions)
             print(message)
             
 def Mes(Week):
