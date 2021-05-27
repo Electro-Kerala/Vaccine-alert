@@ -19,7 +19,7 @@ def sendTGMessage(message:str, chat_ID:str)->None:
     resp = requests.post(url, msg_data).json()
     print("Message Not Send" if resp['ok'] is False else "👉    Message  Sent")
 
-def SetData(district_ID, WholeSessions,index,message):
+def SetData(district_ID:int, WholeSessions:int,index:int,message:str):
     global Mem_Sessions
     Dis_ID = [ 301, 307, 306, 297, 295, 298, 304, 305, 302, 308, 300, 296, 303, 299]
 
@@ -30,7 +30,7 @@ def SetData(district_ID, WholeSessions,index,message):
             Mem_Sessions=np.insert(Mem_Sessions,index,WholeSessions)
             print(message)
             
-def Mes(Week):
+def Mes(Week)->None:
 	global DB
 	global abstrList
 	global Message
@@ -44,14 +44,14 @@ def Mes(Week):
 		Message = Message+ message0
 	return length
 
-def Abstr(x,abstr,marray):
-    global DB
-    global abstrList
-    if x<7:
-        DB=np.insert(DB,x,marray)
-        abstrList=np.insert(abstrList,x,abstr)
+def Abstr(x:int,abstr:str,marray)->None:
+	global DB
+	global abstrList
+	if x<7:
+		DB=np.insert(DB,x,marray)
+		abstrList=np.insert(abstrList,x,abstr)
 
-def GetData(district_ID,District_Name,chat_ID1):
+def GetData(district_ID:int,District_Name:str,chat_ID1:str):
 	global dataB1
 	global data1
 	global index
@@ -82,12 +82,12 @@ def GetData(district_ID,District_Name,chat_ID1):
 			modifiedlist.append(" - Doses = ")
 			modifiedlist.append(new_result['sessions'][i]['available_capacity'])
 			modifiedlist.append("\n")
-			for y in modifiedlist:
-				abstr+= str(y)
-				#print(abstr)
-				marray =np. array(modifiedlist)
-				marray =marray.reshape(num,7)
-				Abstr(x,abstr,marray)
+		for y in modifiedlist:
+			abstr+= str(y)
+			print(abstr)
+		marray =np. array(modifiedlist)
+		marray =marray.reshape(num,7)
+		Abstr(x, abstr, marray)
 	WholeSessions=Mes(Week)
 	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
 	print(message)
