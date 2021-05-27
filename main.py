@@ -10,6 +10,8 @@ DB=np.array([])
 dataB1=np.array([])
 data1 = 0
 Message = f""
+total_dos_aval = 0
+temp_dos_avl = 0;
 
 abstrList=np.array([])
 
@@ -34,13 +36,15 @@ def Mes(Week)->int:
 	global DB
 	global abstrList
 	global Message
+	global total_dos_aval,temp_dos_avl
 	length=0
 	for j in range(7):
 		length=length+len(DB[j])
-		if len(DB[j])!=0:
+		if len(DB[j])!=0 or total_dos_aval != temp_dos_avl:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {len(DB[j])}"
+			temp_dos_avl = total_dos_aval
 		else:
-			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo centers available"
+			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo update  available"
 		Message = Message+ message0
 	return length
 
@@ -82,12 +86,13 @@ def GetData(district_ID:int,District_Name:str,chat_ID1:str)->None:
 			modifiedlist.append(" - Doses = ")
 			modifiedlist.append(new_result['sessions'][i]['available_capacity'])
 			modifiedlist.append("\n")
+			total_dos_aval = total_dos_aval+new_result['sessions'][i]['available_capacity']
 		for y in modifiedlist:
 			abstr+= str(y)
 			#print(abstr)
-		marray =np. array(modifiedlist)
+		marray =np.array(modifiedlist)
 		marray =marray.reshape(num,7)
-		Abstr(x, abstr, marray)
+		Abstr(x, abstr, marray) # X = day 
 	WholeSessions=Mes(Week)
 	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
 	print(message)
@@ -100,6 +105,7 @@ def loop():
 	global index
 	index=0
 	try:
+		print("am in loop")
 		GetData(301,"Alappuzha","@alappuzha_vaccine_alert")
 		time.sleep(16)
 		GetData(307,"Ernakulam","@ernakulam_vaccine_alert")
