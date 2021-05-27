@@ -19,7 +19,7 @@ def sendTGMessage(message:str, chat_ID:str)->None:
     resp = requests.post(url, msg_data).json()
     print("Message Not Send" if resp['ok'] is False else "👉    Message  Sent")
 
-def SetData(district_ID:int, WholeSessions:int,index:int,message:str,chat_ID1:str):
+def SetData(district_ID:int, WholeSessions:int,index:int,message:str,chat_ID1:str)->None:
     global Mem_Sessions
     Dis_ID = [ 301, 307, 306, 297, 295, 298, 304, 305, 302, 308, 300, 296, 303, 299]
 
@@ -30,7 +30,7 @@ def SetData(district_ID:int, WholeSessions:int,index:int,message:str,chat_ID1:st
             Mem_Sessions=np.insert(Mem_Sessions,index,WholeSessions)
             print(message)
             
-def Mes(Week)->None:
+def Mes(Week)->int:
 	global DB
 	global abstrList
 	global Message
@@ -51,7 +51,7 @@ def Abstr(x:int,abstr:str,marray)->None:
 		DB=np.insert(DB,x,marray)
 		abstrList=np.insert(abstrList,x,abstr)
 
-def GetData(district_ID:int,District_Name:str,chat_ID1:str):
+def GetData(district_ID:int,District_Name:str,chat_ID1:str)->None:
 	global dataB1
 	global data1
 	global index
@@ -84,7 +84,7 @@ def GetData(district_ID:int,District_Name:str,chat_ID1:str):
 			modifiedlist.append("\n")
 		for y in modifiedlist:
 			abstr+= str(y)
-			print(abstr)
+			#print(abstr)
 		marray =np. array(modifiedlist)
 		marray =marray.reshape(num,7)
 		Abstr(x, abstr, marray)
