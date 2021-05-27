@@ -41,7 +41,7 @@ def Mes(Week):
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {len(DB[j])}"
 		else:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo centers available"
-		Message = Message + message0
+		Message = Message+ message0
 	return length
 
 def Abstr(x,abstr,marray):
@@ -49,7 +49,7 @@ def Abstr(x,abstr,marray):
     global abstrList
     if x<7:
         DB=np.insert(DB,x,marray)
-        abstrlist=np.insert(abstrlist,x,abstr)
+        abstrList=np.insert(abstrList,x,abstr)
 
 def GetData(district_ID,District_Name,chat_ID1):
 	global dataB1
@@ -90,13 +90,15 @@ def GetData(district_ID,District_Name,chat_ID1):
 				Abstr(x,abstr,marray)
 	WholeSessions=Mes(Week)
 	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
-	#print(message)
+	print(message)
 	SetData(district_ID, WholeSessions,index,message)
 	index+=1
 
 #GetData(<district code>,"district name","chat_id")-1001339973178
 		
 def loop():
+	global index
+	index=0
 	try:
 		GetData(301,"Alappuzha","@alappuzha_vaccine_alert")
 		time.sleep(16)
