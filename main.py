@@ -43,6 +43,7 @@ def Mes(Week)->int:
 		if len(DB[j])!=0 or total_dos_aval != temp_dos_avl:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {len(DB[j])}"
 			temp_dos_avl = total_dos_aval
+			print("update available")
 		else:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo update  available"
 		Message = Message+ message0
@@ -59,7 +60,7 @@ def GetData(district_ID:int,District_Name:str,chat_ID1:str)->None:
 	global dataB1
 	global data1
 	global index
-	global Message
+	global Message , total_dos_aval
 	abstr =''
 	day0=datetime.now()
 	day1=day0+timedelta(1)
