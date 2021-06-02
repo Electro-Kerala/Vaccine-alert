@@ -10,8 +10,8 @@ DB=np.array([])
 dataB1=np.array([])
 data1 = 0
 Message = f""
-total_dos_aval = 0
-temp_dos_avl = 0;
+total_dos_aval =np.array([])
+
 
 abstrList=np.array([])
 
@@ -32,17 +32,17 @@ def setData(district_ID:int, WholeSessions:int,index:int,message:str,chat_ID1:st
             Mem_Sessions=np.insert(Mem_Sessions,index,WholeSessions)
             print(message)
             
-def buildMessage(Week)->int:
+def buildMessage(Week,temp_dos_avl)->int:
 	global DB
 	global abstrList
 	global Message
-	global total_dos_aval,temp_dos_avl
+	global total_dos_aval
 	length=0
 	for j in range(7):
 		length=length+len(DB[j])
-		if len(DB[j])!=0 or total_dos_aval != temp_dos_avl:
+		if len(DB[j])!=0 or total_dos_aval[j] != temp_dos_avl:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {len(DB[j])}"
-			temp_dos_avl = total_dos_aval
+			total_dos_aval[j] = temp_dos_avl
 			print("update available")
 		else:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo update  available"
@@ -60,8 +60,10 @@ def getData(district_ID:int,District_Name:str,chat_ID1:str)->None:
 	global dataB1
 	global data1
 	global index
-	global Message , total_dos_aval
+	global Message
 	abstr =''
+	index=0
+	temp_dos_avl=0
 	day0=datetime.now()
 	day1=day0+timedelta(1)
 	day2=day0+timedelta(2)
@@ -80,6 +82,7 @@ def getData(district_ID:int,District_Name:str,chat_ID1:str)->None:
 		num=len(new_result['sessions'])
 		modifiedlist = []
 		for i in range(num):
+			temp_dos_avl+=new_result['sessions'][i]['available_capacity']
 			if new_result['sessions'][i]['available_capacity'] > 0:
 				modifiedlist.append(i+1)
 				modifiedlist.append(".")
@@ -93,13 +96,8 @@ def getData(district_ID:int,District_Name:str,chat_ID1:str)->None:
 			#print(abstr)
 		marray =np.array(modifiedlist)
 		marray =marray.reshape(num,7)
-<<<<<<< HEAD
-		Abstr(x, abstr, marray) # X = day 
-	WholeSessions=Mes(Week)
-=======
 		dataBase(x, abstr, marray)
-	WholeSessions=buildMessage(Week)
->>>>>>> f0c25a3f44e55ce6407a49c59f1348e8a72f3b70
+	WholeSessions=buildMessage(Week,temp_dos_avl)
 	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
 	print(message)
 	setData(district_ID, WholeSessions, index, message,chat_ID1)
@@ -108,15 +106,10 @@ def getData(district_ID:int,District_Name:str,chat_ID1:str)->None:
 #getData(<district code>,"district name","chat_id")-1001339973178
 		
 def loop():
-	global index
-	index=0
+	#global index
+	#index=0
 	try:
-<<<<<<< HEAD
-		print("am in loop")
-		GetData(301,"Alappuzha","@alappuzha_vaccine_alert")
-=======
 		getData(301,"Alappuzha","@alappuzha_vaccine_alert")
->>>>>>> f0c25a3f44e55ce6407a49c59f1348e8a72f3b70
 		time.sleep(16)
 		getData(307,"Ernakulam","@ernakulam_vaccine_alert")
 		time.sleep(16)
