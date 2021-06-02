@@ -1,7 +1,7 @@
 import requests
 import json
 import numpy as np
-import time
+import time 
 from datetime import date,datetime,timedelta
 
 index=0
@@ -21,7 +21,7 @@ def sendTGMessage(message:str, chat_ID:str)->None:
     resp = requests.post(url, msg_data).json()
     print("Message Not Send" if resp['ok'] is False else "👉    Message  Sent")
 
-def SetData(district_ID:int, WholeSessions:int,index:int,message:str,chat_ID1:str)->None:
+def setData(district_ID:int, WholeSessions:int,index:int,message:str,chat_ID1:str)->None:
     global Mem_Sessions
     Dis_ID = [ 301, 307, 306, 297, 295, 298, 304, 305, 302, 308, 300, 296, 303, 299]
 
@@ -32,7 +32,7 @@ def SetData(district_ID:int, WholeSessions:int,index:int,message:str,chat_ID1:st
             Mem_Sessions=np.insert(Mem_Sessions,index,WholeSessions)
             print(message)
             
-def Mes(Week)->int:
+def buildMessage(Week)->int:
 	global DB
 	global abstrList
 	global Message
@@ -49,14 +49,14 @@ def Mes(Week)->int:
 		Message = Message+ message0
 	return length
 
-def Abstr(x:int,abstr:str,marray)->None:
+def dataBase(x:int,abstr:str,marray)->None:
 	global DB
 	global abstrList
 	if x<7:
 		DB=np.insert(DB,x,marray)
 		abstrList=np.insert(abstrList,x,abstr)
 
-def GetData(district_ID:int,District_Name:str,chat_ID1:str)->None:
+def getData(district_ID:int,District_Name:str,chat_ID1:str)->None:
 	global dataB1
 	global data1
 	global index
@@ -80,60 +80,69 @@ def GetData(district_ID:int,District_Name:str,chat_ID1:str)->None:
 		num=len(new_result['sessions'])
 		modifiedlist = []
 		for i in range(num):
-			modifiedlist.append(i+1)
-			modifiedlist.append(".")
-			modifiedlist.append(" ")
-			modifiedlist.append(new_result['sessions'][i]['name'])
-			modifiedlist.append(" - Doses = ")
-			modifiedlist.append(new_result['sessions'][i]['available_capacity'])
-			modifiedlist.append("\n")
-			total_dos_aval = total_dos_aval+new_result['sessions'][i]['available_capacity']
+			if new_result['sessions'][i]['available_capacity'] > 0:
+				modifiedlist.append(i+1)
+				modifiedlist.append(".")
+				modifiedlist.append(" ")
+				modifiedlist.append(new_result['sessions'][i]['name'])
+				modifiedlist.append(" - Doses = ")
+				modifiedlist.append(new_result['sessions'][i]['available_capacity'])
+				modifiedlist.append("\n")
 		for y in modifiedlist:
 			abstr+= str(y)
 			#print(abstr)
 		marray =np.array(modifiedlist)
 		marray =marray.reshape(num,7)
+<<<<<<< HEAD
 		Abstr(x, abstr, marray) # X = day 
 	WholeSessions=Mes(Week)
+=======
+		dataBase(x, abstr, marray)
+	WholeSessions=buildMessage(Week)
+>>>>>>> f0c25a3f44e55ce6407a49c59f1348e8a72f3b70
 	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
 	print(message)
-	SetData(district_ID, WholeSessions, index, message,chat_ID1)
+	setData(district_ID, WholeSessions, index, message,chat_ID1)
 	index+=1
 
-#GetData(<district code>,"district name","chat_id")-1001339973178
+#getData(<district code>,"district name","chat_id")-1001339973178
 		
 def loop():
 	global index
 	index=0
 	try:
+<<<<<<< HEAD
 		print("am in loop")
 		GetData(301,"Alappuzha","@alappuzha_vaccine_alert")
+=======
+		getData(301,"Alappuzha","@alappuzha_vaccine_alert")
+>>>>>>> f0c25a3f44e55ce6407a49c59f1348e8a72f3b70
 		time.sleep(16)
-		GetData(307,"Ernakulam","@ernakulam_vaccine_alert")
+		getData(307,"Ernakulam","@ernakulam_vaccine_alert")
 		time.sleep(16)
-		GetData(306,"Idukki","@idukki_vaccine_alert")
+		getData(306,"Idukki","@idukki_vaccine_alert")
 		time.sleep(16)
-		GetData(297,"Kannur","@kannur_vaccine_alert")
+		getData(297,"Kannur","@kannur_vaccine_alert")
 		time.sleep(16)
-		GetData(295,"Kasaragod","@kasaragod_vaccine_alert")
+		getData(295,"Kasaragod","@kasaragod_vaccine_alert")
 		time.sleep(16)
-		GetData(298,"Kollam","@kollam_vaccine_alert")
+		getData(298,"Kollam","@kollam_vaccine_alert")
 		time.sleep(16)
-		GetData(304,"Kottayam","@kottayam_vaccine_alert")
+		getData(304,"Kottayam","@kottayam_vaccine_alert")
 		time.sleep(16)
-		GetData(305,"Kozhikode","@kozhikode_vaccine_alert")
+		getData(305,"Kozhikode","@kozhikode_vaccine_alert")
 		time.sleep(16)
-		GetData(302,"Malappuram","@malappuram_vaccine_alert")
+		getData(302,"Malappuram","@malappuram_vaccine_alert")
 		time.sleep(16)
-		GetData(308,"Palakkad","@palakkad_vaccine_alert")
+		getData(308,"Palakkad","@palakkad_vaccine_alert")
 		time.sleep(16)
-		GetData(300,"Pathanamthitta","@pathanamthitta_vaccine_alert")
+		getData(300,"Pathanamthitta","@pathanamthitta_vaccine_alert")
 		time.sleep(16)
-		GetData(296,"Thiruvananthapuram","@thiruvananthapuram_vaccine_alert")
+		getData(296,"Thiruvananthapuram","@thiruvananthapuram_vaccine_alert")
 		time.sleep(16)
-		GetData(303,"Thrissur","@thrissur_vaccine_alert")
+		getData(303,"Thrissur","@thrissur_vaccine_alert")
 		time.sleep(16)
-		GetData(299,"Wayanad","@wayanad_vaccine_alert")
+		getData(299,"Wayanad","@wayanad_vaccine_alert")
 		#sendTGMessage("Function is running","-1001339973178")
 		loop()
 		
