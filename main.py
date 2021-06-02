@@ -62,7 +62,6 @@ def getData(district_ID:int,District_Name:str,chat_ID1:str)->None:
 	global index
 	global Message
 	abstr =''
-	index=0
 	temp_dos_avl=0
 	day0=datetime.now()
 	day1=day0+timedelta(1)
@@ -106,8 +105,8 @@ def getData(district_ID:int,District_Name:str,chat_ID1:str)->None:
 #getData(<district code>,"district name","chat_id")-1001339973178
 		
 def loop():
-	#global index
-	#index=0
+	global index
+	index=0
 	try:
 		getData(301,"Alappuzha","@alappuzha_vaccine_alert")
 		time.sleep(16)
