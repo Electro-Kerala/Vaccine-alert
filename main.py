@@ -4,13 +4,13 @@ import numpy as np
 import time 
 from datetime import date,datetime,timedelta
 
-index=0
+index= 0
 Mem_Sessions=np.array([])
 DB=np.array([])
 dataB1=np.array([])
-data1 = 0
-Message = f""
 total_dos_aval =np.array([])
+Message = f""
+
 
 
 abstrList=np.array([])
@@ -42,7 +42,7 @@ def buildMessage(Week, temp_dos_avl:int)->int:
 		length=length+len(DB[j])
 		if len(DB[j])!=0 or total_dos_aval[j] != temp_dos_avl:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {len(DB[j])}"
-			total_dos_aval[j] = np.insert(total_dos_aval,j,temp_dos_avl)
+			total_dos_aval= np.insert(total_dos_aval,j,temp_dos_avl)
 			print("update available")
 		else:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo update  available"
@@ -58,7 +58,6 @@ def dataBase(x:int, abstr:str, marray)->None:
 
 def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 	global dataB1
-	global data1
 	global index
 	global Message
 	abstr =''
@@ -92,7 +91,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 				modifiedlist.append("\n")
 		for y in modifiedlist:
 			abstr+= str(y)
-			#print(abstr)
+			print(abstr)
 		marray =np.array(modifiedlist)
 		marray =marray.reshape(num,7)
 		dataBase(x, abstr, marray)
