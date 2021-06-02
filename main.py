@@ -5,15 +5,12 @@ import time
 from datetime import date,datetime,timedelta
 
 index= 0
-Mem_Sessions=np.array([])
 DB=np.array([])
 dataB1=np.array([])
+abstrList=np.array([])
+Mem_Sessions=np.array([])
 total_dos_aval =np.array([])
 Message = f""
-
-
-
-abstrList=np.array([])
 
 def sendTGMessage(message:str, chat_ID:str)->None:
     url = f'https://api.telegram.org/bot<bot_ID>/sendMessage'
@@ -81,7 +78,8 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		modifiedlist = []
 		for i in range(num):
 			temp_dos_avl+=new_result['sessions'][i]['available_capacity']
-			if new_result['sessions'][i]['available_capacity'] > 0:
+			print(new_result['sessions'][i]['available_capacity'])
+			if new_result['sessions'][i]['available_capacity'] >= 0:
 				modifiedlist.append(i+1)
 				modifiedlist.append(".")
 				modifiedlist.append(" ")
@@ -91,7 +89,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 				modifiedlist.append("\n")
 		for y in modifiedlist:
 			abstr+= str(y)
-			print(abstr)
+			#print(abstr)
 		marray =np.array(modifiedlist)
 		marray =marray.reshape(num,7)
 		dataBase(x, abstr, marray)
