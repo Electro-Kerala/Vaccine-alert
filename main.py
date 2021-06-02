@@ -88,18 +88,14 @@ def getData(district_ID:int,District_Name:str,chat_ID1:str)->None:
 				modifiedlist.append(" - Doses = ")
 				modifiedlist.append(new_result['sessions'][i]['available_capacity'])
 				modifiedlist.append("\n")
+				total_dos_aval += new_result['sessions'][i]['available_capacity']
 		for y in modifiedlist:
 			abstr+= str(y)
 			#print(abstr)
 		marray =np.array(modifiedlist)
 		marray =marray.reshape(num,7)
-<<<<<<< HEAD
 		Abstr(x, abstr, marray) # X = day 
 	WholeSessions=Mes(Week)
-=======
-		dataBase(x, abstr, marray)
-	WholeSessions=buildMessage(Week)
->>>>>>> f0c25a3f44e55ce6407a49c59f1348e8a72f3b70
 	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
 	print(message)
 	setData(district_ID, WholeSessions, index, message,chat_ID1)
@@ -111,12 +107,8 @@ def loop():
 	global index
 	index=0
 	try:
-<<<<<<< HEAD
 		print("am in loop")
 		GetData(301,"Alappuzha","@alappuzha_vaccine_alert")
-=======
-		getData(301,"Alappuzha","@alappuzha_vaccine_alert")
->>>>>>> f0c25a3f44e55ce6407a49c59f1348e8a72f3b70
 		time.sleep(16)
 		getData(307,"Ernakulam","@ernakulam_vaccine_alert")
 		time.sleep(16)
