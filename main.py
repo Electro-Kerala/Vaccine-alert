@@ -40,7 +40,7 @@ def buildMessage(Week, temp_dos_avl:int)->int:
 	length=0
 	for j in range(7):
 		length=length+len(DB[j])
-		if len(DB[j])!=0 or total_dos_aval[j] != temp_dos_avl:
+		if len(DB[j])!=0 or (total_dos_aval[j] != temp_dos_avl):
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {len(DB[j])}"
 			total_dos_aval= np.insert(total_dos_aval,j,temp_dos_avl)
 			print("update available")
@@ -98,7 +98,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		t+=temp_dos_avl
 	WholeSessions=buildMessage(Week,t)
 	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
-	print(message)
+	#print(message)
 	setData(district_ID, WholeSessions, index, message, chat_ID1)
 	index+=1
 
