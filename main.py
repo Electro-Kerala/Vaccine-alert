@@ -28,7 +28,7 @@ def setData(district_ID:int, WholeSessions:int, index:int, message:str, chat_ID1
 			#sendTGMessage(message,chat_ID1)
             Mem_Sessions=np.insert(Mem_Sessions,index,WholeSessions)
             print(message)
-            
+
 def buildMessage(Week, temp_dos_avl:int)->int:
 	'''
 
@@ -36,25 +36,26 @@ def buildMessage(Week, temp_dos_avl:int)->int:
 	global DB
 	global abstrList
 	global Message
-	global total_dos_aval
+	global total_dos_aval,index
 	length=0
 	for j in range(7):
 		length=length+len(DB[j])
 		if len(DB[j])!=0 or (total_dos_aval[j] != temp_dos_avl):
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {len(DB[j])}"
-			total_dos_aval= np.insert(total_dos_aval,j,temp_dos_avl)
+			total_dos_aval= np.insert(total_dos_aval[index],j,temp_dos_avl)
 			print("update available")
 		else:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo update  available"
 		Message = Message+ message0
 	return length
 
-def dos_avl(id:int, totl_dos:int)
-	'''
+''''def dos_avl(id:int, totl_dos:int):
+
 	This function add the total num of doses available in the district id to the Totl_dose_in_dt list
 	Totl_dose_in_dt is a global list
+
+	global Totl_dose_in_dt[id] = totl_dose
 	'''
-	golbal Totl_dose_in_dt[id] = totl_dose
 
 def dataBase(x:int, abstr:str, marray)->None:
 	'''
@@ -62,9 +63,10 @@ def dataBase(x:int, abstr:str, marray)->None:
 	'''
 	global DB
 	global abstrList
+	global index
 	if x<7:
-		DB=np.insert(DB,x,marray)
-		abstrList=np.insert(abstrList,x,abstr)
+		DB=np.insert(DB[index],x,marray)
+		abstrList=np.insert(abstrList[index],x,abstr)
 
 def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 	global dataB1
@@ -107,7 +109,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		marray =marray.reshape(num,7)
 		dataBase(x, abstr, marray)
 		t+=temp_dos_avl
-	dos_avl(295-id,temp_dos_avl)
+	#dos_avl(295-id,temp_dos_avl)
 
 	WholeSessions=buildMessage(Week,t)
 	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
