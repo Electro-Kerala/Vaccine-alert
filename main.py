@@ -11,49 +11,57 @@ abstrList=np.array([])
 Mem_Sessions=np.array([])
 total_dos_aval =np.array([])
 Message = f""
-Totl_dose_in_dt = [0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+
 def sendTGMessage(message:str, chat_ID:str)->None:
     url = f'https://api.telegram.org/bot<bot_ID>/sendMessage'
     msg_data = {'chat_id':chat_ID,'text':message,"parse_mode":"Markdown"}
     resp = requests.post(url, msg_data).json()
     print("Message Not Send" if resp['ok'] is False else "👉    Message  Sent")
 
-def setData(district_ID:int, WholeSessions:int, index:int, message:str, chat_ID1:str)->None:
-    global Mem_Sessions
-    Dis_ID = [ 301, 307, 306, 297, 295, 298, 304, 305, 302, 308, 300, 296, 303, 299]
-
-    if district_ID==Dis_ID[index]:
-        if Mem_Sessions!=WholeSessions:
-            print("Update Available") 
+'''
+	This function sends the message to each district platforms, according to the total No. of centers or dose availability
+	array=np.insert(where,index,value)
+'''
+def setData(district_ID:int, WholeSessions:int, index:int, message:str, temp_dos_avl:int, chat_ID1:str)->None:
+	global Mem_Sessions
+	global total_dos_aval
+	Dis_ID = [ 301, 307, 306, 297, 295, 298, 304, 305, 302, 308, 300, 296, 303, 299]
+	if district_ID==Dis_ID[index]:
+		if Mem_Sessions!=WholeSessions or (total_dos_aval[index]!= temp_dos_avl):
+			print("Updates Available") 
 			#sendTGMessage(message,chat_ID1)
-            Mem_Sessions=np.insert(Mem_Sessions,index,WholeSessions)
-            print(message)
-            
-def buildMessage(Week, temp_dos_avl:int)->int:
-	'''
+			Mem_Sessions=np.insert(Mem_Sessions,index,WholeSessions)
+			total_dos_aval = np.insert(total_dos_aval,index,temp_dos_avl)
+			print(message)
 
-	'''
+'''
+	This function gives the updated message according to the No. of centers 
+	Returns the total No. of centers
+'''
+def buildMessage(Week)->int:
 	global DB
 	global abstrList
 	global Message
-	global total_dos_aval
 	length=0
 	for j in range(7):
 		length=length+len(DB[j])
-		if len(DB[j])!=0 or (total_dos_aval[j] != temp_dos_avl):
+		if len(DB)!=0:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {len(DB[j])}"
-			total_dos_aval= np.insert(total_dos_aval,j,temp_dos_avl)
-			print("update available")
 		else:
-			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo update  available"
+			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo updates available"
 		Message = Message+ message0
 	return length
 
+<<<<<<< HEAD
 
+=======
+'''
+	This function records the marray and abstr string per day
+	array=np.insert(where,index,value)
+'''
+>>>>>>> 479c9231c0e3549e37fe19cf3bc4b534ee2a123e
 def dataBase(x:int, abstr:str, marray)->None:
-	'''
-	
-	'''
 	global DB
 	global abstrList
 	if x<7:
@@ -65,7 +73,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 	global index
 	global Message
 	abstr =''
-	temp_dos_avl=t=0
+	temp_dos_avl = total = 0
 	day0=datetime.now()
 	day1=day0+timedelta(1)
 	day2=day0+timedelta(2)
@@ -85,7 +93,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		modifiedlist = []
 		for i in range(num):
 			temp_dos_avl+=new_result['sessions'][i]['available_capacity']
-			print(new_result['sessions'][i]['available_capacity'])
+			#print(new_result['sessions'][i]['available_capacity'])
 			if new_result['sessions'][i]['available_capacity'] >= 10:
 				modifiedlist.append(i+1)
 				modifiedlist.append(".")
@@ -100,13 +108,12 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		marray =np.array(modifiedlist)
 		marray =marray.reshape(num,7)
 		dataBase(x, abstr, marray)
-		t+=temp_dos_avl
-	
+		total+=temp_dos_avl
 
-	WholeSessions=buildMessage(Week,t)
+	WholeSessions=buildMessage(Week)
 	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
 	#print(message)
-	setData(district_ID, WholeSessions, index, message, chat_ID1)
+	setData(district_ID, WholeSessions, index, message, total, chat_ID1)
 	index+=1
 
 #getData(<district code>,"district name","chat_id")-1001339973178
