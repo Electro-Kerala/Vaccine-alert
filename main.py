@@ -12,8 +12,6 @@ Mem_Sessions=np.array([])
 total_dos_aval =np.array([])
 Message = f""
 
-#Totl_dose_in_dt = [0,0,0,0,0,0,0,0,0,0,0,0,0]
-
 
 def sendTGMessage(message:str, chat_ID:str)->None:
     url = f'https://api.telegram.org/bot<bot_ID>/sendMessage'
@@ -23,6 +21,7 @@ def sendTGMessage(message:str, chat_ID:str)->None:
 
 '''
 	This function sends the message to each district platforms, according to the total No. of centers or dose availability
+	array=np.insert(where,index,value)
 '''
 def setData(district_ID:int, WholeSessions:int, index:int, message:str, temp_dos_avl:int, chat_ID1:str)->None:
 	global Mem_Sessions
@@ -30,7 +29,7 @@ def setData(district_ID:int, WholeSessions:int, index:int, message:str, temp_dos
 	Dis_ID = [ 301, 307, 306, 297, 295, 298, 304, 305, 302, 308, 300, 296, 303, 299]
 	if district_ID==Dis_ID[index]:
 		if Mem_Sessions!=WholeSessions or (total_dos_aval[index]!= temp_dos_avl):
-			print("Update Available") 
+			print("Updates Available") 
 			#sendTGMessage(message,chat_ID1)
 			Mem_Sessions=np.insert(Mem_Sessions,index,WholeSessions)
 			total_dos_aval = np.insert(total_dos_aval,index,temp_dos_avl)
@@ -49,14 +48,14 @@ def buildMessage(Week)->int:
 		length=length+len(DB[j])
 		if len(DB)!=0:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {len(DB[j])}"
-			print("update available")
 		else:
-			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo update  available"
+			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo updates available"
 		Message = Message+ message0
 	return length
 
 '''
-	This function stores the marray and abstr string per day
+	This function records the marray and abstr string per day
+	array=np.insert(where,index,value)
 '''
 def dataBase(x:int, abstr:str, marray)->None:
 	global DB
@@ -64,15 +63,6 @@ def dataBase(x:int, abstr:str, marray)->None:
 	if x<7:
 		DB=np.insert(DB,x,marray)
 		abstrList=np.insert(abstrList,x,abstr)
-
-'''
-def dos_avl(id:int, totl_dos:int):
-
-	This function add the total num of doses available in the district id to the Totl_dose_in_dt list
-	Totl_dose_in_dt is a global list
-
-	global Totl_dose_in_dt[id] = totl_dose
-'''
 
 def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 	global dataB1
@@ -115,7 +105,6 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		marray =marray.reshape(num,7)
 		dataBase(x, abstr, marray)
 		total+=temp_dos_avl
-	#dos_avl(295-id,temp_dos_avl)
 
 	WholeSessions=buildMessage(Week)
 	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
