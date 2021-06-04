@@ -53,14 +53,10 @@ def buildMessage(Week)->int:
 		Message = Message+ message0
 	return length
 
-<<<<<<< HEAD
-
-=======
 '''
 	This function records the marray and abstr string per day
 	array=np.insert(where,index,value)
 '''
->>>>>>> 479c9231c0e3549e37fe19cf3bc4b534ee2a123e
 def dataBase(x:int, abstr:str, marray)->None:
 	global DB
 	global abstrList
@@ -83,6 +79,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 	day6=day0+timedelta(6)
 	Week=np.array([day0,day1,day2,day3,day4,day5,day6])
 	for x in range(7):
+		print("day",x)
 		time.sleep(4)
 		Date=Week[x].strftime('%d-%m-%Y')
 		url = f'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id={district_ID}&date={Date}'
@@ -112,7 +109,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 
 	WholeSessions=buildMessage(Week)
 	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
-	#print(message)
+	print(message)
 	setData(district_ID, WholeSessions, index, message, total, chat_ID1)
 	index+=1
 
@@ -121,40 +118,43 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 def loop():
 	global index
 	index=0
-	try:
-		getData(301,"Alappuzha","@alappuzha_vaccine_alert")
-		time.sleep(16)
-		getData(307,"Ernakulam","@ernakulam_vaccine_alert")
-		time.sleep(16)
-		getData(306,"Idukki","@idukki_vaccine_alert")
-		time.sleep(16)
-		getData(297,"Kannur","@kannur_vaccine_alert")
-		time.sleep(16)
-		getData(295,"Kasaragod","@kasaragod_vaccine_alert")
-		time.sleep(16)
-		getData(298,"Kollam","@kollam_vaccine_alert")
-		time.sleep(16)
-		getData(304,"Kottayam","@kottayam_vaccine_alert")
-		time.sleep(16)
-		getData(305,"Kozhikode","@kozhikode_vaccine_alert")
-		time.sleep(16)
-		getData(302,"Malappuram","@malappuram_vaccine_alert")
-		time.sleep(16)
-		getData(308,"Palakkad","@palakkad_vaccine_alert")
-		time.sleep(16)
-		getData(300,"Pathanamthitta","@pathanamthitta_vaccine_alert")
-		time.sleep(16)
-		getData(296,"Thiruvananthapuram","@thiruvananthapuram_vaccine_alert")
-		time.sleep(16)
-		getData(303,"Thrissur","@thrissur_vaccine_alert")
-		time.sleep(16)
-		getData(299,"Wayanad","@wayanad_vaccine_alert")
-		#sendTGMessage("Function is running","-1001339973178")
-		loop()
-		
+	# try:
+	print("am in loop")
+	getData(301,"Alappuzha","@alappuzha_vaccine_alert")
+	time.sleep(16)
+	getData(307,"Ernakulam","@ernakulam_vaccine_alert")
+	time.sleep(16)
+	getData(306,"Idukki","@idukki_vaccine_alert")
+	time.sleep(16)
+	getData(297,"Kannur","@kannur_vaccine_alert")
+	time.sleep(16)
+	getData(295,"Kasaragod","@kasaragod_vaccine_alert")
+	time.sleep(16)
+	getData(298,"Kollam","@kollam_vaccine_alert")
+	time.sleep(16)
+	getData(304,"Kottayam","@kottayam_vaccine_alert")
+	time.sleep(16)
+	getData(305,"Kozhikode","@kozhikode_vaccine_alert")
+	time.sleep(16)
+	getData(302,"Malappuram","@malappuram_vaccine_alert")
+	time.sleep(16)
+	getData(308,"Palakkad","@palakkad_vaccine_alert")
+	time.sleep(16)
+	getData(300,"Pathanamthitta","@pathanamthitta_vaccine_alert")
+	time.sleep(16)
+	getData(296,"Thiruvananthapuram","@thiruvananthapuram_vaccine_alert")
+	time.sleep(16)
+	getData(303,"Thrissur","@thrissur_vaccine_alert")
+	time.sleep(16)
+	getData(299,"Wayanad","@wayanad_vaccine_alert")
+	#sendTGMessage("Function is running","-1001339973178")
+	loop()
+	
+	'''
 	except:
 		time.sleep(32)
+		print("some thing went wrong")
 		#sendTGMessage("Something went wrong","-1001339973178")
 		loop()
-
+	'''
 loop()
