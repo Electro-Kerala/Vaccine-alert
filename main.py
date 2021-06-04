@@ -1,8 +1,8 @@
 import requests
-#import json
+import json
 import numpy as np
 import time 
-from datetime import datetime,timedelta#,date
+from datetime import datetime,timedelta,date
 
 index= 0
 DB = np.array([])
@@ -24,7 +24,6 @@ def sendTGMessage(message:str, chat_ID:str)->None:
 
 '''
 	This function sends the message to each district platforms, according to the total No. of centers or dose availability
-	array=np.insert(where,index,value)
 '''
 def setData(district_ID:int, WholeSessions:int, index:int, message:str, temp_dos_avl:int, chat_ID1:str)->None:
 	global Mem_Sessions
@@ -34,8 +33,8 @@ def setData(district_ID:int, WholeSessions:int, index:int, message:str, temp_dos
 		if Mem_Sessions[index]!=WholeSessions or (total_dos_aval[index]!= temp_dos_avl):
 			print("Updates Available") 
 			#sendTGMessage(message,chat_ID1)
-			Mem_Sessions[index]=WholeSessions#np.insert(Mem_Sessions,index,WholeSessions)
-			total_dos_aval[index] = temp_dos_avl#np.insert(total_dos_aval,index,temp_dos_avl)
+			Mem_Sessions[index]=WholeSessions
+			total_dos_aval[index] = temp_dos_avl
 			print(message)
 
 '''
@@ -58,15 +57,13 @@ def buildMessage(Week)->int:
 
 '''
 	This function records the marray and abstr string per day
-	array=np.insert(where,index,value)
 '''
 def dataBase(x:int, abstr:str, marray)->None:
 	global DB
 	global abstrList
-	#a=np.array(marray,dtype=np.ndarray)
 	if x<7:
-		DB[x]=marray#np.append(DB,marray)
-		abstrList[x]=abstr#np.insert(abstrList,x,abstr) #np.append(abstrList,abstr)
+		DB[x]=marray
+		abstrList[x]=abstr
 
 
 def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
@@ -108,7 +105,6 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		#print(abstr)
 		marray =np.array(modifiedlist)
 		marray =marray.reshape(num,7)
-		#print(type(marray))
 		dataBase(x, abstr, marray)
 		total+=temp_dos_avl
 
@@ -123,43 +119,41 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 def loop():
 	global index
 	index=0
-	#try:
-	print("am in loop")
-	getData(301,"Alappuzha","@alappuzha_vaccine_alert")
-	time.sleep(16)
-	getData(307,"Ernakulam","@ernakulam_vaccine_alert")
-	time.sleep(16)
-	getData(306,"Idukki","@idukki_vaccine_alert")
-	time.sleep(16)
-	getData(297,"Kannur","@kannur_vaccine_alert")
-	time.sleep(16)
-	getData(295,"Kasaragod","@kasaragod_vaccine_alert")
-	time.sleep(16)
-	getData(298,"Kollam","@kollam_vaccine_alert")
-	time.sleep(16)
-	getData(304,"Kottayam","@kottayam_vaccine_alert")
-	time.sleep(16)
-	getData(305,"Kozhikode","@kozhikode_vaccine_alert")
-	time.sleep(16)
-	getData(302,"Malappuram","@malappuram_vaccine_alert")
-	time.sleep(16)
-	getData(308,"Palakkad","@palakkad_vaccine_alert")
-	time.sleep(16)
-	getData(300,"Pathanamthitta","@pathanamthitta_vaccine_alert")
-	time.sleep(16)
-	getData(296,"Thiruvananthapuram","@thiruvananthapuram_vaccine_alert")
-	time.sleep(16)
-	getData(303,"Thrissur","@thrissur_vaccine_alert")
-	time.sleep(16)
-	getData(299,"Wayanad","@wayanad_vaccine_alert")
-	#sendTGMessage("Function is running","-1001339973178")
-	loop()
+	try:
+		print("am in loop")
+		getData(301,"Alappuzha","@alappuzha_vaccine_alert")
+		time.sleep(16)
+		getData(307,"Ernakulam","@ernakulam_vaccine_alert")
+		time.sleep(16)
+		getData(306,"Idukki","@idukki_vaccine_alert")
+		time.sleep(16)
+		getData(297,"Kannur","@kannur_vaccine_alert")
+		time.sleep(16)
+		getData(295,"Kasaragod","@kasaragod_vaccine_alert")
+		time.sleep(16)
+		getData(298,"Kollam","@kollam_vaccine_alert")
+		time.sleep(16)
+		getData(304,"Kottayam","@kottayam_vaccine_alert")
+		time.sleep(16)
+		getData(305,"Kozhikode","@kozhikode_vaccine_alert")
+		time.sleep(16)
+		getData(302,"Malappuram","@malappuram_vaccine_alert")
+		time.sleep(16)
+		getData(308,"Palakkad","@palakkad_vaccine_alert")
+		time.sleep(16)
+		getData(300,"Pathanamthitta","@pathanamthitta_vaccine_alert")
+		time.sleep(16)
+		getData(296,"Thiruvananthapuram","@thiruvananthapuram_vaccine_alert")
+		time.sleep(16)
+		getData(303,"Thrissur","@thrissur_vaccine_alert")
+		time.sleep(16)
+		getData(299,"Wayanad","@wayanad_vaccine_alert")
+		#sendTGMessage("Function is running","-1001339973178")
+		loop()
 	
-	'''
 	except:
 		time.sleep(32)
 		print("some thing went wrong")
 		#sendTGMessage("Something went wrong","-1001339973178")
 		loop()
-	'''
 loop()
