@@ -1,15 +1,18 @@
 import requests
-import json
+#import json
 import numpy as np
 import time 
-from datetime import date,datetime,timedelta
+from datetime import datetime,timedelta#,date
 
 index= 0
-DB=np.array([])
-dataB1=np.array([])
-abstrList=np.array([])
-Mem_Sessions=np.array([])
-total_dos_aval =np.array([])
+DB = np.array([])
+DB = np.zeros((7,), dtype = np.ndarray)
+abstrList = np.array([])
+abstrList = np.zeros((7,), dtype = np.object_)
+Mem_Sessions = np.array([])
+Mem_Sessions = np.zeros((14,), dtype = np.int_) 
+total_dos_aval = np.array([])
+total_dos_aval = np.zeros((14,), dtype = np.int_) 
 Message = f""
 
 
@@ -28,11 +31,11 @@ def setData(district_ID:int, WholeSessions:int, index:int, message:str, temp_dos
 	global total_dos_aval
 	Dis_ID = [ 301, 307, 306, 297, 295, 298, 304, 305, 302, 308, 300, 296, 303, 299]
 	if district_ID==Dis_ID[index]:
-		if Mem_Sessions!=WholeSessions or (total_dos_aval[index]!= temp_dos_avl):
+		if Mem_Sessions[index]!=WholeSessions or (total_dos_aval[index]!= temp_dos_avl):
 			print("Updates Available") 
 			#sendTGMessage(message,chat_ID1)
-			Mem_Sessions=np.insert(Mem_Sessions,index,WholeSessions)
-			total_dos_aval = np.insert(total_dos_aval,index,temp_dos_avl)
+			Mem_Sessions[index]=WholeSessions#np.insert(Mem_Sessions,index,WholeSessions)
+			total_dos_aval[index] = temp_dos_avl#np.insert(total_dos_aval,index,temp_dos_avl)
 			print(message)
 
 '''
@@ -60,12 +63,13 @@ def buildMessage(Week)->int:
 def dataBase(x:int, abstr:str, marray)->None:
 	global DB
 	global abstrList
+	#a=np.array(marray,dtype=np.ndarray)
 	if x<7:
-		DB=np.insert(DB,x,marray)
-		abstrList=np.insert(abstrList,x,abstr)
+		DB[x]=marray#np.append(DB,marray)
+		abstrList[x]=abstr#np.insert(abstrList,x,abstr) #np.append(abstrList,abstr)
+
 
 def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
-	global dataB1
 	global index
 	global Message
 	abstr =''
@@ -91,7 +95,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		for i in range(num):
 			temp_dos_avl+=new_result['sessions'][i]['available_capacity']
 			#print(new_result['sessions'][i]['available_capacity'])
-			if new_result['sessions'][i]['available_capacity'] >= 10:
+			if new_result['sessions'][i]['available_capacity'] >= 0:
 				modifiedlist.append(i+1)
 				modifiedlist.append(".")
 				modifiedlist.append(" ")
@@ -101,14 +105,15 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 				modifiedlist.append("\n")
 		for y in modifiedlist:
 			abstr+= str(y)
-			# print(abstr)
+		#print(abstr)
 		marray =np.array(modifiedlist)
 		marray =marray.reshape(num,7)
+		#print(type(marray))
 		dataBase(x, abstr, marray)
 		total+=temp_dos_avl
 
 	WholeSessions=buildMessage(Week)
-	message =f"\nUpdate on {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
+	message =f"\nUpdate on  {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
 	print(message)
 	setData(district_ID, WholeSessions, index, message, total, chat_ID1)
 	index+=1
@@ -118,7 +123,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 def loop():
 	global index
 	index=0
-	# try:
+	#try:
 	print("am in loop")
 	getData(301,"Alappuzha","@alappuzha_vaccine_alert")
 	time.sleep(16)
