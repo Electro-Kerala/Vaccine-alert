@@ -92,11 +92,13 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		num=len(new_result['sessions'])
 		modifiedlist = []
 		aval_dose_num = 0 # Is use to save number of slotes with availabe doses
+		adcenter_count = 0
 		for i in range(num):
 			temp_dos_avl+=new_result['sessions'][i]['available_capacity']
 			# print(new_result['sessions'][i]['available_capacity'])
 			if new_result['sessions'][i]['available_capacity'] > 10:
-				modifiedlist.append(i+1)
+				adcenter_count += 1
+				modifiedlist.append(adcenter_count)
 				modifiedlist.append(".")
 				modifiedlist.append(" ")
 				modifiedlist.append(new_result['sessions'][i]['name'])
@@ -105,7 +107,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 				modifiedlist.append("\n")
 				aval_dose_num += 1;
 				print(modifiedlist)
-			
+				
 		for y in modifiedlist:
 			abstr+= str(y)
 		print(aval_dose_num)
@@ -113,7 +115,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		marray =marray.reshape(aval_dose_num,7)
 		dataBase(x, abstr, aval_dose_num)
 		aval_dose_num=0
-		
+		abstr = ''
 		total+=temp_dos_avl
 
 	WholeSessions=buildMessage(Week)
