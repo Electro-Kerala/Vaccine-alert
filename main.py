@@ -55,7 +55,7 @@ def buildMessage(Week)->int:
 	return length
 
 
-def dataBase(x:int, abstr:str, num_of_centers)->None:
+def dataBase(x:int, abstr:str, num_of_centers:int)->None:
 	'''
 	This function records the number of centers with dose grater than 10 and abstr string per day
 	'''
