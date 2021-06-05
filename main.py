@@ -42,27 +42,29 @@ def setData(district_ID:int, WholeSessions:int, index:int, message:str, temp_dos
 	Returns the total No. of centers
 '''
 def buildMessage(Week)->int:
-	global DB
+	global DB # veriable from the function dataBase (list of m arrays )
 	global abstrList
 	global Message
 	length=0
 	for j in range(7):
-		length=length+len(DB[j])
+		length=length+DB[j]
 		if len(DB)!=0:
-			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {len(DB[j])}"
+			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {DB[j]}"
 		else:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo updates available"
 		Message = Message+ message0
 	return length
 
-'''
-	This function records the marray and abstr string per day
-'''
-def dataBase(x:int, abstr:str, marray)->None:
+
+def dataBase(x:int, abstr:str, num_of_centers)->None:
+	'''
+	This function records the number of centers with dose grater than 10 and abstr string per day
+	'''
+	
 	global DB
 	global abstrList
 	if x<7:
-		DB[x]=marray
+		DB[x]=num_of_centers
 		abstrList[x]=abstr
 
 
@@ -102,14 +104,16 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 				modifiedlist.append(new_result['sessions'][i]['available_capacity'])
 				modifiedlist.append("\n")
 				aval_dose_num += 1;
+				print(modifiedlist)
 			
 		for y in modifiedlist:
 			abstr+= str(y)
-		
+		print(aval_dose_num)
 		marray =np.array(modifiedlist)
 		marray =marray.reshape(aval_dose_num,7)
+		dataBase(x, abstr, aval_dose_num)
 		aval_dose_num=0
-		dataBase(x, abstr, marray)
+		
 		total+=temp_dos_avl
 
 	WholeSessions=buildMessage(Week)
@@ -123,8 +127,12 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 def loop():
 	global index
 	index=0
+	getData(296,"Thiruvananthapuram","@thiruvananthapuram_vaccine_alert")
+	time.sleep(16)
+	getData(301,"Alappuzha","@alappuzha_vaccine_alert")
+	time.sleep(16)
 	#try:
-	print("am in loop")
+'''
 	getData(301,"Alappuzha","@alappuzha_vaccine_alert")
 	time.sleep(16)
 	getData(307,"Ernakulam","@ernakulam_vaccine_alert")
@@ -147,18 +155,26 @@ def loop():
 	time.sleep(16)
 	getData(300,"Pathanamthitta","@pathanamthitta_vaccine_alert")
 	time.sleep(16)
-	getData(296,"Thiruvananthapuram","@thiruvananthapuram_vaccine_alert")
-	time.sleep(16)
+	'''
+#	getData(296,"Thiruvananthapuram","@thiruvananthapuram_vaccine_alert")
+#	time.sleep(16)
+'''
 	getData(303,"Thrissur","@thrissur_vaccine_alert")
 	time.sleep(16)
 	getData(299,"Wayanad","@wayanad_vaccine_alert")
 	#sendTGMessage("Function is running","-1001339973178")
 	loop()
-	'''
+'''
+
+'''
 	except:
 		time.sleep(32)
 		print("some thing went wrong")
 		#sendTGMessage("Something went wrong","-1001339973178")
 		loop()
-	'''
-loop()
+'''
+getData(296,"Thiruvananthapuram","@thiruvananthapuram_vaccine_alert")
+time.sleep(16)
+getData(301,"Alappuzha","@alappuzha_vaccine_alert")
+time.sleep(16)
+# loop()
