@@ -89,10 +89,11 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		new_result=result.json()
 		num=len(new_result['sessions'])
 		modifiedlist = []
+		aval_dose_num = 0 # Is use to save number of slotes with availabe doses
 		for i in range(num):
 			temp_dos_avl+=new_result['sessions'][i]['available_capacity']
-			#print(new_result['sessions'][i]['available_capacity'])
-			if new_result['sessions'][i]['available_capacity'] >= 0:
+			# print(new_result['sessions'][i]['available_capacity'])
+			if new_result['sessions'][i]['available_capacity'] > 10:
 				modifiedlist.append(i+1)
 				modifiedlist.append(".")
 				modifiedlist.append(" ")
@@ -100,11 +101,14 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 				modifiedlist.append(" - Doses = ")
 				modifiedlist.append(new_result['sessions'][i]['available_capacity'])
 				modifiedlist.append("\n")
+				aval_dose_num += 1;
+			
 		for y in modifiedlist:
 			abstr+= str(y)
-		#print(abstr)
+		
 		marray =np.array(modifiedlist)
-		marray =marray.reshape(num,7)
+		marray =marray.reshape(aval_dose_num,7)
+		aval_dose_num=0
 		dataBase(x, abstr, marray)
 		total+=temp_dos_avl
 
@@ -119,41 +123,42 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 def loop():
 	global index
 	index=0
-	try:
-		print("am in loop")
-		getData(301,"Alappuzha","@alappuzha_vaccine_alert")
-		time.sleep(16)
-		getData(307,"Ernakulam","@ernakulam_vaccine_alert")
-		time.sleep(16)
-		getData(306,"Idukki","@idukki_vaccine_alert")
-		time.sleep(16)
-		getData(297,"Kannur","@kannur_vaccine_alert")
-		time.sleep(16)
-		getData(295,"Kasaragod","@kasaragod_vaccine_alert")
-		time.sleep(16)
-		getData(298,"Kollam","@kollam_vaccine_alert")
-		time.sleep(16)
-		getData(304,"Kottayam","@kottayam_vaccine_alert")
-		time.sleep(16)
-		getData(305,"Kozhikode","@kozhikode_vaccine_alert")
-		time.sleep(16)
-		getData(302,"Malappuram","@malappuram_vaccine_alert")
-		time.sleep(16)
-		getData(308,"Palakkad","@palakkad_vaccine_alert")
-		time.sleep(16)
-		getData(300,"Pathanamthitta","@pathanamthitta_vaccine_alert")
-		time.sleep(16)
-		getData(296,"Thiruvananthapuram","@thiruvananthapuram_vaccine_alert")
-		time.sleep(16)
-		getData(303,"Thrissur","@thrissur_vaccine_alert")
-		time.sleep(16)
-		getData(299,"Wayanad","@wayanad_vaccine_alert")
-		#sendTGMessage("Function is running","-1001339973178")
-		loop()
-	
+	#try:
+	print("am in loop")
+	getData(301,"Alappuzha","@alappuzha_vaccine_alert")
+	time.sleep(16)
+	getData(307,"Ernakulam","@ernakulam_vaccine_alert")
+	time.sleep(16)
+	getData(306,"Idukki","@idukki_vaccine_alert")
+	time.sleep(16)
+	getData(297,"Kannur","@kannur_vaccine_alert")
+	time.sleep(16)
+	getData(295,"Kasaragod","@kasaragod_vaccine_alert")
+	time.sleep(16)
+	getData(298,"Kollam","@kollam_vaccine_alert")
+	time.sleep(16)
+	getData(304,"Kottayam","@kottayam_vaccine_alert")
+	time.sleep(16)
+	getData(305,"Kozhikode","@kozhikode_vaccine_alert")
+	time.sleep(16)
+	getData(302,"Malappuram","@malappuram_vaccine_alert")
+	time.sleep(16)
+	getData(308,"Palakkad","@palakkad_vaccine_alert")
+	time.sleep(16)
+	getData(300,"Pathanamthitta","@pathanamthitta_vaccine_alert")
+	time.sleep(16)
+	getData(296,"Thiruvananthapuram","@thiruvananthapuram_vaccine_alert")
+	time.sleep(16)
+	getData(303,"Thrissur","@thrissur_vaccine_alert")
+	time.sleep(16)
+	getData(299,"Wayanad","@wayanad_vaccine_alert")
+	#sendTGMessage("Function is running","-1001339973178")
+	loop()
+	'''
 	except:
 		time.sleep(32)
 		print("some thing went wrong")
 		#sendTGMessage("Something went wrong","-1001339973178")
 		loop()
+	'''
 loop()
