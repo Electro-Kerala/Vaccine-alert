@@ -1,8 +1,7 @@
 import requests
-import json
 import numpy as np
 import time 
-from datetime import datetime,timedelta,date
+from datetime import datetime,timedelta
 
 index= 0
 DB = np.array([])
@@ -48,7 +47,7 @@ def buildMessage(Week)->int:
 	length=0
 	for j in range(7):
 		length=length+DB[j]
-		if len(DB)!=0:
+		if DB[j]!=0:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {DB[j]}"
 		else:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo updates available"
