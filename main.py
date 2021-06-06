@@ -16,7 +16,7 @@ Message = f""
 
 
 def sendTGMessage(message:str, chat_ID:str)->None:
-    url = f'https://api.telegram.org/bot<bot_ID>/sendMessage'
+    url = f'https://api.telegram.org/bot<Bot-ID>/sendMessage'
     msg_data = {'chat_id':chat_ID,'text':message,"parse_mode":"Markdown"}
     resp = requests.post(url, msg_data).json()
     print("Message Not Send" if resp['ok'] is False else "👉    Message  Sent")
@@ -31,7 +31,7 @@ def setData(district_ID:int, WholeSessions:int, index:int, message:str, temp_dos
 	if district_ID==Dis_ID[index]:
 		if Mem_Sessions[index]!=WholeSessions or (total_dos_aval[index]!= temp_dos_avl):
 			print("Updates Available") 
-			#sendTGMessage(message,chat_ID1)
+			sendTGMessage(message,chat_ID1)
 			Mem_Sessions[index]=WholeSessions
 			total_dos_aval[index] = temp_dos_avl
 			print(message)
@@ -191,4 +191,4 @@ def loop():
 		loop()
 
 
-# loop()
+loop()
