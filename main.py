@@ -125,6 +125,7 @@ def loop():
 	global index
 	index=0
 	try:
+		'''
 		getData(301,"Alappuzha","@alappuzha_vaccine_alert")
 		time.sleep(16)
 		getData(307,"Ernakulam","@ernakulam_vaccine_alert")
@@ -152,6 +153,34 @@ def loop():
 		getData(303,"Thrissur","@thrissur_vaccine_alert")
 		time.sleep(16)
 		getData(299,"Wayanad","@wayanad_vaccine_alert")
+		'''
+		getData(301,"Alappuzha","-1001339973178")
+		time.sleep(16)
+		getData(307,"Ernakulam","-1001339973178")
+		time.sleep(16)
+		getData(306,"Idukki","-1001339973178")
+		time.sleep(16)
+		getData(297,"Kannur","-1001339973178")
+		time.sleep(16)
+		getData(295,"Kasaragod","-1001339973178")
+		time.sleep(16)
+		getData(298,"Kollam","-1001339973178")
+		time.sleep(16)
+		getData(304,"Kottayam","-1001339973178")
+		time.sleep(16)
+		getData(305,"Kozhikode","-1001339973178")
+		time.sleep(16)
+		getData(302,"Malappuram","-1001339973178")
+		time.sleep(16)
+		getData(308,"Palakkad","-1001339973178")
+		time.sleep(16)
+		getData(300,"Pathanamthitta","-1001339973178")
+		time.sleep(16)
+		getData(296,"Thiruvananthapuram","-1001339973178")
+		time.sleep(16)
+		getData(303,"Thrissur","-1001339973178")
+		time.sleep(16)
+		getData(299,"Wayanad","-1001339973178")
 		#sendTGMessage("Function is running","-1001339973178")
 		loop()
 
