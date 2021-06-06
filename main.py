@@ -114,9 +114,10 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		total+=temp_dos_avl
 
 	WholeSessions=buildMessage(Week)
-	message =f"\nUpdate on  {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAleart from Server 3. Please verify the details with https://cowin.gov.in and book Cowid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
+	message =f"\nUpdate on  {District_Name} district {Message} \n\nTotal centers from {Week[0].strftime('%d-%m-%Y')} to {Week[6].strftime('%d-%m-%Y')} is {WholeSessions} \n\n\nIt'll take some time to reflect the changes in Cowin portal. If the doses is a number it is availabe right now, doses is 0 refresh the page and try again it'll take upto 30 minutes.\nAlert from Server 3: Please verify the details with https://cowin.gov.in and book Covid-19 vaccine from there. For more info visit https://vaccine-alert.github.io \nGreetings from Electro Kerala, The hardware community"
 	print(message)
 	setData(district_ID, WholeSessions, index, message, total, chat_ID1)
+	Message = f""
 	index+=1
 
 #getData(<district code>,"district name","chat_id")-1001339973178
