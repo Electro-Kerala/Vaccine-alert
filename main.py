@@ -1,8 +1,7 @@
 import requests
-import json
 import numpy as np
 import time 
-from datetime import datetime,timedelta,date
+from datetime import datetime,timedelta
 
 index= 0
 DB = np.array([])
@@ -48,7 +47,7 @@ def buildMessage(Week)->int:
 	length=0
 	for j in range(7):
 		length=length+DB[j]
-		if len(DB)!=0:
+		if DB[j]!=0:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\n\n{abstrList[j]}Number of centers available is {DB[j]}"
 		else:
 			message0=f"\n\n{Week[j].strftime('%d-%m-%Y')}\nNo updates available"
@@ -56,7 +55,7 @@ def buildMessage(Week)->int:
 	return length
 
 
-def dataBase(x:int, abstr:str, num_of_centers)->None:
+def dataBase(x:int, abstr:str, num_of_centers:int)->None:
 	'''
 	This function records the number of centers with dose grater than 10 and abstr string per day
 	'''
@@ -71,7 +70,6 @@ def dataBase(x:int, abstr:str, num_of_centers)->None:
 def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 	global index
 	global Message
-	abstr =''
 	temp_dos_avl = total = 0
 	day0=datetime.now()
 	day1=day0+timedelta(1)
@@ -91,21 +89,20 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		new_result=result.json()
 		num=len(new_result['sessions'])
 		modifiedlist = []
+		abstr =''
 		aval_dose_num = 0 # Is use to save number of slotes with availabe doses
-		adcenter_count = 0
 		for i in range(num):
 			temp_dos_avl+=new_result['sessions'][i]['available_capacity']
 			# print(new_result['sessions'][i]['available_capacity'])
 			if new_result['sessions'][i]['available_capacity'] > 10:
-				adcenter_count += 1
-				modifiedlist.append(adcenter_count)
+				aval_dose_num += 1
+				modifiedlist.append(aval_dose_num)
 				modifiedlist.append(".")
 				modifiedlist.append(" ")
 				modifiedlist.append(new_result['sessions'][i]['name'])
 				modifiedlist.append(" - Doses = ")
 				modifiedlist.append(new_result['sessions'][i]['available_capacity'])
 				modifiedlist.append("\n")
-				aval_dose_num += 1;
 				print(modifiedlist)
 				
 		for y in modifiedlist:
@@ -114,8 +111,6 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		marray =np.array(modifiedlist)
 		marray =marray.reshape(aval_dose_num,7)
 		dataBase(x, abstr, aval_dose_num)
-		aval_dose_num=0
-		abstr = ''
 		total+=temp_dos_avl
 
 	WholeSessions=buildMessage(Week)
