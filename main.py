@@ -29,12 +29,14 @@ def setData(district_ID:int, WholeSessions:int, index:int, message:str, temp_dos
 	global total_dos_aval
 	Dis_ID = [ 301, 307, 306, 297, 295, 298, 304, 305, 302, 308, 300, 296, 303, 299]
 	if district_ID==Dis_ID[index]:
-		if Mem_Sessions[index]!=WholeSessions or (total_dos_aval[index]!= temp_dos_avl):
+		if(total_dos_aval[index]!= temp_dos_avl):
 			print("Updates Available") 
 			sendTGMessage(message,chat_ID1)
 			Mem_Sessions[index]=WholeSessions
 			total_dos_aval[index] = temp_dos_avl
 			print(message)
+		else:
+			print("No update at all \n \n")
 
 '''
 	This function gives the updated message according to the No. of centers 
@@ -80,7 +82,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 	day6=day0+timedelta(6)
 	Week=np.array([day0,day1,day2,day3,day4,day5,day6])
 	for x in range(7):
-		print("day",x)
+	#	print("day",x)
 		time.sleep(4)
 		Date=Week[x].strftime('%d-%m-%Y')
 		url = f'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id={district_ID}&date={Date}'
