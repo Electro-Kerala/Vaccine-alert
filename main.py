@@ -29,7 +29,11 @@ def setData(district_ID:int, WholeSessions:int, index:int, message:str, temp_dos
 	global total_dos_aval
 	Dis_ID = [ 301, 307, 306, 297, 295, 298, 304, 305, 302, 308, 300, 296, 303, 299]
 	if district_ID==Dis_ID[index]:
-		if(total_dos_aval[index]!= temp_dos_avl):
+
+		if(total_dos_aval[index]!= temp_dos_avl and abs(total_dos_aval[index]-temp_dos_avl)>10): 
+			# if there any change in the dose value and if the diffrence between the dose value is grater than 10
+			# the message will send to telegram
+			
 			print("Updates Available") 
 			sendTGMessage(message,chat_ID1)
 			Mem_Sessions[index]=WholeSessions
