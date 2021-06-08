@@ -13,7 +13,6 @@ Mem_Sessions = np.zeros((14,), dtype = np.int_)
 total_dos_aval = np.array([])
 total_dos_aval = np.zeros((14,), dtype = np.int_) 
 Message = f""
-totl_dose_num
 
 def sendTGMessage(message:str, chat_ID:str)->None:
     url = f'https://api.telegram.org/bot<Bot-ID>/sendMessage'
@@ -103,7 +102,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 			if new_result['sessions'][i]['available_capacity'] > 10:
 				aval_dose_num += 1
 				temp_dos_avl+=new_result['sessions'][i]['available_capacity']
-				print(new_result['sessions'][i]['available_capacity'])
+				print(temp_dos_avl)
 				modifiedlist.append(aval_dose_num)
 				modifiedlist.append(".")
 				modifiedlist.append(" ")
@@ -134,7 +133,6 @@ def loop():
 	global index
 	index=0
 	try:
-		'''
 		getData(301,"Alappuzha","@alappuzha_vaccine_alert")
 		time.sleep(16)
 		getData(307,"Ernakulam","@ernakulam_vaccine_alert")
@@ -190,13 +188,14 @@ def loop():
 		getData(303,"Thrissur","-1001339973178")
 		time.sleep(16)
 		getData(299,"Wayanad","-1001339973178")
-		#sendTGMessage("Function is running","-1001339973178")
+		'''
+		sendTGMessage("Function is running","-1001339973178")
 		loop()
 
 	except:
 		time.sleep(32)
 		print("some thing went wrong")
-		#sendTGMessage("Something went wrong","-1001339973178")
+		sendTGMessage("Something went wrong","-1001339973178")
 		loop()
 
 
