@@ -13,7 +13,7 @@ Mem_Sessions = np.zeros((14,), dtype = np.int_)
 total_dos_aval = np.array([])
 total_dos_aval = np.zeros((14,), dtype = np.int_) 
 Message = f""
-
+totl_dose_num
 
 def sendTGMessage(message:str, chat_ID:str)->None:
     url = f'https://api.telegram.org/bot<Bot-ID>/sendMessage'
@@ -29,18 +29,18 @@ def setData(district_ID:int, WholeSessions:int, index:int, message:str, temp_dos
 	global total_dos_aval
 	Dis_ID = [ 301, 307, 306, 297, 295, 298, 304, 305, 302, 308, 300, 296, 303, 299]
 	if district_ID==Dis_ID[index]:
-
-		if(total_dos_aval[index]!= temp_dos_avl and abs(total_dos_aval[index]-temp_dos_avl)>10): 
-			# if there any change in the dose value and if the diffrence between the dose value is grater than 10
-			# the message will send to telegram
-			
-			print("Updates Available") 
-			sendTGMessage(message,chat_ID1)
-			Mem_Sessions[index]=WholeSessions
-			total_dos_aval[index] = temp_dos_avl
-			print(message)
-		else:
-			print("No update at all \n \n")
+		if WholeSessions != 0:
+			if(total_dos_aval[index]!= temp_dos_avl and abs(total_dos_aval[index]-temp_dos_avl)>10): 
+				# if there any change in the dose value and if the diffrence between the dose value is grater than 10
+				# the message will send to telegram
+				
+				print("Updates Available") 
+				sendTGMessage(message,chat_ID1)
+				Mem_Sessions[index]=WholeSessions
+				total_dos_aval[index] = temp_dos_avl
+				print(message)
+			else:
+				print("No update at all \n \n")
 
 '''
 	This function gives the updated message according to the No. of centers 
@@ -97,11 +97,13 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 		modifiedlist = []
 		abstr =''
 		aval_dose_num = 0 # Is use to save number of slotes with availabe doses
+		print(f"Available dose in day{x} = ")
 		for i in range(num):
-			temp_dos_avl+=new_result['sessions'][i]['available_capacity']
-			# print(new_result['sessions'][i]['available_capacity'])
+			
 			if new_result['sessions'][i]['available_capacity'] > 10:
 				aval_dose_num += 1
+				temp_dos_avl+=new_result['sessions'][i]['available_capacity']
+				print(new_result['sessions'][i]['available_capacity'])
 				modifiedlist.append(aval_dose_num)
 				modifiedlist.append(".")
 				modifiedlist.append(" ")
@@ -109,7 +111,7 @@ def getData(district_ID:int, District_Name:str, chat_ID1:str)->None:
 				modifiedlist.append(" - Doses = ")
 				modifiedlist.append(new_result['sessions'][i]['available_capacity'])
 				modifiedlist.append("\n")
-				print(modifiedlist)
+				# print(modifiedlist)
 				
 		for y in modifiedlist:
 			abstr+= str(y)
